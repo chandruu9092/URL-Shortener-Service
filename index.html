@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Encoder or Decoder</title>
+  <style>
+    #shortURL{
+      font-weight: bold;
+    }
+    #span1,#span2{
+      color: red;
+    }
+  </style>
+</head>
+<body>
+    
+    Enter Long URL : <input type="text" id="long" placeholder="Enter Valid URL" required> 
+    <input type="submit" onclick="getShortURL()"> <br>
+
+    <p id="span1"></p>
+
+    Your Short URL is : <p id="shortURL"></p>
+
+    Enter Short URL : <input type="text" id="short" placeholder="Enter short URL" required> 
+    <button><a href="" id="redi" onclick="redirectToLongURL()">Redirect</a></button> <br>
+    <p id="span2"></p>
+    
+</body>
+<Script>
+
+  let map = new Map();
+  let url = "uc.url//";
+
+  function getShortURL(){
+    let longURL = document.querySelector("#long").value;
+    if(longURL.length>7){
+      let code = getCode(5);
+      map.set(code,longURL);
+      let shortURL = url+code;
+      document.querySelector("#shortURL").innerHTML = shortURL;
+    }
+    else alert("please enter valid URL");
+  }
+
+  function getCode(length){
+    let code='';
+    let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let chLength = chars.length;
+    for(let i=1;i<=length;i++){
+      let val = Math.floor(Math.random()*chLength);
+      code = code + chars.charAt(val);
+    }
+    return code;
+  }
+
+  function redirectToLongURL(){
+    let shortURL = document.querySelector("#short").value;
+    if(shortURL.length>7){
+      let code = shortURL.replace(url,'');
+      let longURL = map.get(code);
+      document.querySelector("#redi").setAttribute("href",longURL);
+    }
+    else alert("please enter valid URL");
+    
+  }
+  
+</Script>
+</html>
